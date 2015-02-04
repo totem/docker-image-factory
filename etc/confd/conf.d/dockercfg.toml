@@ -1,0 +1,10 @@
+[template]
+src   = "dockercfg.tmpl"
+dest  = "/opt/image-factory/.dockercfg.enc.b64"
+uid = 0
+gid = 0
+mode  = "0600"
+keys = [
+  "image-factory"
+]
+reload_cmd = "/bin/bash -c '/usr/local/bin/decrypt-docker-cfg.sh 2>&1 | logger -p local0.info -t \"dockercfg_reload[$$]\"'"

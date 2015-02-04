@@ -45,9 +45,10 @@ RUN ln -sf /etc/supervisor/supervisord.conf /etc/supervisord.conf
 ADD bin/confd-wrapper.sh /usr/sbin/confd-wrapper.sh
 RUN chmod +x /usr/sbin/confd-wrapper.sh
 
-#SSH Keys
+#Custom Scripts
 ADD bin/decrypt-ssh-keys.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/decrypt-ssh-keys.sh
+ADD bin/decrypt-docker-cfg.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/decrypt-ssh-keys.sh /usr/local/bin/decrypt-docker-cfg.sh
 
 # Install Image Factory
 RUN adduser --system --home /opt/image-factory --shell /bin/bash imagefactory
