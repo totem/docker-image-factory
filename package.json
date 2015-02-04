@@ -1,0 +1,72 @@
+{
+  "name": "image-factory",
+  "version": "0.3.0",
+  "description": "Docker Image Factory",
+  "keywords": [
+    "docker",
+    "image",
+    "factory"
+  ],
+  "main": "./bin/image-factory",
+  "bin": {
+    "image-factory": "./bin/image-factory"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "dependencies": {
+    "async": "*",
+    "winston": "*",
+    "restify": "*",
+    "wrench": "*",
+    "optimist": "*",
+    "shortid": "*",
+    "lodash": "*",
+    "formatter": "*",
+    "z-schema": "*",
+    "underscore.string": "*",
+    "aws-sdk": "*",
+    "events": "~1.0.0",
+    "backoff": "*",
+    "aws-swf": "*"
+  },
+  "devDependencies": {
+    "request": "*",
+    "chai": "*",
+    "sinon": "*",
+    "sinon-chai": "~2.5.0",
+    "grunt": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-mocha-cov": "*",
+    "mocha-term-cov-reporter": "*",
+    "grunt-cli": "*",
+    "grunt-shell": "*",
+    "rewire": "*"
+  },
+  "scripts": {
+    "start": "node bin/image-factory",
+    "test": "./node_modules/.bin/grunt test",
+    "blanket": {
+      "pattern": [
+        "image-factory/bin",
+        "image-factory/lib"
+      ]
+    }
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "engineStrict": true,
+  "author": {
+    "name": "Mike Moulton",
+    "email": "mike@meltmedia.com",
+    "url": "http://www.meltmedia.com/"
+  },
+  "maintainer": [
+    "Mike Moulton <mike@meltmedia.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/totem/image-factory.git"
+  }
+}

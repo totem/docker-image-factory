@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+
+/*!
+ * Docker Image Factory CLI
+ * Copyright(c) 2013 Meltmedia
+ * By Mike Moulton <mike@meltmedia.com>
+ * Apache 2 Licensed
+ */
+
+'use strict';
+
+var winston = require('winston'),
+    path = require('path'),
+    fs = require('fs'),
+    swfHelper = require('../lib/swf/helper'),
+    swfRegister = require('../lib/swf/register'),
+    ImageFactoryActivities = require('../lib/swf/image-factory-activities'),
+    Factory = require('../lib/factory');
+
+function main() {
+
+  winston.cli();
+
+  var config = {};
+
+  var optimist = require('optimist')
+    .usage('Build Docker Images From GitHub Repositories\nUsage: $0', {
+      'debug': {
+        'type': 'boolean',
+        'description': 'Debug logging',
+        'alias': 'D'
+      },
+      'config': {
+        'type': 'string',
+        'description': 'Path to configuration file',
+        'alias': 'c'
+      },
+      'help': {
+        'type': 'boolean',
+        'description': 'Show help',
+        'alias': 'h'
+      }
+    });
+
+  var argv = optimist.argv;
+
+  // Help, i've fallen and can't get up
+  if (argv.help) {
+    optimist.showHelp();
+    process.exit(0);
+  }
+
+  // Enable debug logging if asked
+  if (argv.debug) {
+    winston.level = 'debug';
+  }
+
+  // Load up config if supplied via CLI
+  if (argv.config) {
+    try {
+      var rawConfig = fs.readFileSync(path.resolve(argv.config));
+      winston.log('debug', 'Loading config from ' + argv.config);
+      config = JSON.parse(rawConfig);
+    } catch (e) {
+      winston.log('error', 'Unable to parse config file \'' + argv.config + '\' due to: ' + e);
+      process.exit(1);
+    }
+  }
+
+  // Startup image factory
+  winston.info('  ___                       ___        _                ');
+  winston.info(' |_ _|_ __  __ _ __ _ ___  | __|_ _ __| |_ ___ _ _ _  _ ');
+  winston.info('  | || \'  \\/ _` / _` / -_) | _/ _` / _|  _/ _ \\ \'_| || |');
+  winston.info(' |___|_|_|_\\__,_\\__, \\___| |_|\\__,_\\__|\\__\\___/_|  \\_, |');
+  winston.info('                |___/                              |__/ ');
+
+    // Run the master
+  try {
+    var factory = new Factory(config);
+    winston.log('info', 'Image factory running.');
+    if(JSON.parse((process.env.SWF_ENABLED || 'false').toLowerCase())) {
+      var swfConfig = config.swf || {
+        region: 'us-west-1',
+        defaultDomain: 'totem-local'
+      };
+      swfConfig = swfHelper.wrapConfigWithDefaultParameters(swfConfig);
+      var swfClient = swfHelper.createClient(swfConfig);
+      swfRegister.register(swfConfig.defaultDomain, swfClient);
+      winston.log('info', 'Registered activities for domain : ' + swfConfig.defaultDomain);
+
+      new ImageFactoryActivities(swfClient, swfConfig.defaultDomain, factory).start();
+      winston.log('info', 'Started Build Image Activities');
+    }
+
+  } catch (e) {
+    winston.log('error', 'Unable to start image factory due to: ' + e);
+    winston.log('error', 'trace: ' + e.stack);
+    process.exit(1);
+  }
+}
+
+if (require.main === module) {
+  main();
+}

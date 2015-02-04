@@ -1,0 +1,35 @@
+{
+  "port": 8080,
+  "defaults": {
+    "realm": "dev",
+    "branch": "develop",
+    "commit": "HEAD"
+  },
+  "realms": {
+    "dev": {
+      "repository": "localhost"
+    }
+  },
+  "tasks": {
+    "clone": {
+      "cmd": "true",
+      "timeout": "900000"
+    },
+    "checkout": {
+      "cmd": "true",
+      "timeout": "120000"
+    },
+    "build": {
+      "cmd": "true",
+      "timeout": "1800000"
+    },
+    "push": {
+      "cmd": "true",
+      "timeout": "1800000"
+    }
+  },
+  "swf":{
+    "region": "us-west-1",
+    "defaultTasklist": "build-image-list"
+  }
+}

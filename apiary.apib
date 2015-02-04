@@ -1,0 +1,164 @@
+HOST: http://image-factory.mg.melt.sh
+
+--- Docker Image Factory ---
+
+---
+This is the public API for the Docker Image Factory
+---
+
+--
+Job
+The following is a section of resources related to Job's initiated for building a docker image
+--
+
+List Jobs
+GET /job
+< 200
+< Content-Type: application/json
+{
+  items: [
+    {
+      "id": "gJRTCG1je",
+      "context": {
+        "gitUrl": "git@github.com:meltmedia/cdp-spec-java.git",
+        "image": "u.melt.sh/meltmedia/cdp-spec-java",
+        "branch": "develop",
+        "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee"
+      },
+      "status": "running",
+      "results": {
+        "clone": {
+          "status": "running"
+        },
+        "checkout": {
+          "status": "pending"
+        },
+        "build": {
+          "status": "pending"
+        },
+        "push": {
+          "status": "pending"
+        }
+      },
+      "startTime": "2013-08-23T19:42:52.013Z",
+      "endTime": null,
+      "links": [
+        {
+          "rel": "self",
+          "url": "/job/gJRTCG1je"
+        },
+        {
+          "rel": "log",
+          "url": "/job/gJRTCG1je/log"
+        }
+      ]
+    }
+  ]
+}
+
+
+Get specific Job
+GET /job/{id}
+< 200
+< Content-Type: application/json
+{
+  "id": "gJRTCG1je",
+  "context": {
+    "gitUrl": "git@github.com:meltmedia/cdp-spec-java.git",
+    "image": "u.melt.sh/meltmedia/cdp-spec-java",
+    "branch": "develop",
+    "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee"
+  },
+  "status": "running",
+  "results": {
+    "clone": {
+      "status": "running"
+    },
+    "checkout": {
+      "status": "pending"
+    },
+    "build": {
+      "status": "pending"
+    },
+    "push": {
+      "status": "pending"
+    }
+  },
+  "startTime": "2013-08-23T19:42:52.013Z",
+  "endTime": null,
+  "links": [
+    {
+      "rel": "self",
+      "url": "/job/gJRTCG1je"
+    },
+    {
+      "rel": "log",
+      "url": "/job/gJRTCG1je/log"
+    }
+  ]
+}
+
+
+Get build log for specific Job
+GET /job/{id}/log
+< 200
+< Content-Type: text/plain
+********************************************************************************
+Executing: git clone --depth 1 --recurse-submodules --branch develop git@github.com:meltmedia/cdp-spec-java.git ./
+--------------------------------------------------------------------------------
+
+Cloning into '.'...
+
+--------------------------------------------------------------------------------
+Command git clone --depth 1 --recurse-submodules --branch develop git@github.com:meltmedia/cdp-spec-java.git ./ completed successfuly
+Total execution time: 2281 ms
+********************************************************************************
+
+
+New Image Build Job
+POST /job
+> Content-Type: application/json
+{
+  "gitUrl": "git@github.com:meltmedia/cdp-spec-java.git",
+  "image": "u.melt.sh/meltmedia/cdp-spec-java",
+  "branch": "develop",
+  "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee"
+}
+< 202
+< Content-Type: application/json
+{
+  "id": "gJRTCG1je",
+  "context": {
+    "gitUrl": "git@github.com:meltmedia/cdp-spec-java.git",
+    "image": "u.melt.sh/meltmedia/cdp-spec-java",
+    "branch": "develop",
+    "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee"
+  },
+  "status": "running",
+  "results": {
+    "clone": {
+      "status": "running"
+    },
+    "checkout": {
+      "status": "pending"
+    },
+    "build": {
+      "status": "pending"
+    },
+    "push": {
+      "status": "pending"
+    }
+  },
+  "startTime": "2013-08-23T19:42:52.013Z",
+  "endTime": null,
+  "links": [
+    {
+      "rel": "self",
+      "url": "/job/gJRTCG1je"
+    },
+    {
+      "rel": "log",
+      "url": "/job/gJRTCG1je/log"
+    }
+  ]
+}

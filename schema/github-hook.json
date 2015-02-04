@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type":"object",
+  "properties":{
+    "ref": {
+      "type":"string",
+      "title": "Github ref [owner]/[repo]/[branch/tag]",
+      "maxLength": 250
+    },
+    "after": {
+      "type":"string",
+      "title": "Github push (after commit)",
+      "maxLength": 250
+    },
+    "deleted": {
+      "type":"boolean"
+    },
+    "repository": {
+      "$ref": "#/definitions/repository"
+    }
+  },
+  "additionalProperties" : true,
+  "required" : ["ref", "deleted", "repository", "after"],
+  "definitions": {
+    "repository": {
+      "properties": {
+        "name": {
+          "type":"string",
+          "title": "Repository name",
+          "maxLength": 100
+        },
+        "owner": {
+          "$ref": "#/definitions/owner"
+        }
+      },
+      "additionalProperties" : true,
+      "required" : ["name", "owner"]
+    },
+    "owner": {
+      "properties": {
+        "name": {
+          "type":"string",
+          "title": "Repository owner name",
+          "maxLength": 100
+        }
+      },
+      "additionalProperties" : true,
+      "required" : ["name"]
+    }
+  }
+}
