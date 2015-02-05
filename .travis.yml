@@ -4,5 +4,3 @@ node_js:
 sudo: false
 script: './node_modules/.bin/grunt travis'
 
-after_success:
-  - coveralls

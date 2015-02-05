@@ -49,7 +49,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   grunt.registerTask('test', ['jshint', 'mochacov:unit', 'mochacov:coverage']);
-  grunt.registerTask('travis', ['jshint', 'mochacov:unit', 'mochacov:coverage']);
+  grunt.registerTask('travis', ['jshint', 'mochacov:unit', 'mochacov:coverage', 'mochacov:coveralls']);
   grunt.registerTask('default', 'test');
 
 };
