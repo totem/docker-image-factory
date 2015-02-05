@@ -1,4 +1,4 @@
-Docker Image Factory
+Docker Image Factory [![Build Status](https://travis-ci.org/totem/docker-image-factory.svg?branch=master)](https://travis-ci.org/totem/docker-image-factory) [![Coverage Status](https://coveralls.io/repos/totem/docker-image-factory/badge.svg)](https://coveralls.io/r/totem/docker-image-factory)
 ====================
 <pre>
   ___                       ___        _                
