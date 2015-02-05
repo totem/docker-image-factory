@@ -63,9 +63,6 @@ RUN ssh-keyscan -H github.com | tee -a /opt/image-factory/.ssh/known_hosts && ch
 ADD .root/.ssh /root/.ssh
 RUN chmod -R 400 /root/.ssh/* && chmod  500 /root/.ssh & chown -R root:root /root/.ssh
 
-# Configure Docker Index Credentials
-ADD .docker/.dockercfg /opt/image-factory/.dockercfg
-
 # Add update git timestamp script
 ADD bin/update-git-ts.sh /usr/local/bin/update-git-ts.sh
 RUN chmod +x /usr/local/bin/update-git-ts.sh
