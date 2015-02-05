@@ -32,7 +32,7 @@ module.exports = function (grunt) {
       coveralls: {
         options: {
           coveralls: {
-            serviceName: 'travis-pro'
+            serviceName: 'travis'
           }
         }
       },
