@@ -32,8 +32,7 @@ module.exports = function (grunt) {
       coveralls: {
         options: {
           coveralls: {
-            serviceName: 'travis-pro',
-            repoToken: 'l7uKUVFmRsDmCruV1mhvEnw1JSpkhzDmx'
+            serviceName: 'travis-pro'
           }
         }
       },
