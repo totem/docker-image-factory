@@ -62,11 +62,12 @@ Create .dockercfg with credentials of quay.io. See [http://docs.quay.io/glossary
 Encrypt the credentials using gpg and passhrase (Use same passphrase as the one used for encrypting github ssh key).
 ```
 echo "<passphrase>"  | gpg -c  --batch --passphrase-fd 0  -o .dockercfg.enc  .dockercfg
+base64 .dockercfg.enc > .dockercfg.enc.b64
 ```
 
 Store the encrypted config in etcd.  
 ```
-curl -L http://172.17.42.1:4001/v2/keys/totem/image-factory/dockercfg -XPUT --data-urlencode value@dockercfg.enc
+curl -L http://172.17.42.1:4001/v2/keys/totem/image-factory/dockercfg -XPUT --data-urlencode value@dockercfg.enc.b64
 ```
 
 ## Running
