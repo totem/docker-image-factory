@@ -24,7 +24,51 @@ private image-factory used in totem.
 + Registry - A location for Docker images to be stores. Compatable with the Docker Registry API.
 + Log - The events from each build step concatinated together.
 
-## Prerequisits
+## Prerequisites (Docker)
++ [Docker 1.1+](http://docker.io)  
++ [Etcd 0.4.6+](https://github.com/coreos/etcd/releases) - Needed for storing encrypted keys, dockerconfig.
++ [Github SSH Key](https://help.github.com/articles/generating-ssh-keys/) - Needed for pulling repositories from github for building docker image.
++ [Quay Account](https://quay.io) - Needed for pushing images to quay.
+
+## Dynamic Config
+### Authorized Keys (Optional)
+This is needed to allow ssh access to image factory. Only needed for troubleshooting docker in docker issues.
+Create authorized_keys file with public keys.  
+```
+cat <<END>authorized_keys
+ssh-rsa AAAAB3NzaC1.....
+```
+
+Store  authorized_keys to etcd.
+```
+curl -L http://172.17.42.1:4001/v2/keys/totem/ssh/authorized-keys -XPUT --data-urlencode value@authorized_keys
+```
+
+### Github SSH Key (Required for private repositories)
+Encrypt the private key using passphrase.
+```
+ssh-keygen  -N '<passphrase>' -p -f github-deploy
+```
+
+Store the encrypted key in etcd.
+```
+curl -L http://172.17.42.1:4001/v2/keys/totem/image-factory/github-key -XPUT --data-urlencode value@github-deploy
+```
+
+### Docker Credentials (.dockercfg)
+Create .dockercfg with credentials of quay.io. See [http://docs.quay.io/glossary/access-token.html](http://docs.quay.io/glossary/access-token.html)
+
+Encrypt the credentials using gpg and passhrase (Use same passphrase as the one used for encrypting github ssh key).
+```
+echo "<passphrase>"  | gpg -c  --batch --passphrase-fd 0  -o .dockercfg.enc  .dockercfg
+```
+
+Store the encrypted config in etcd.  
+```
+curl -L http://172.17.42.1:4001/v2/keys/totem/image-factory/dockercfg -XPUT --data-urlencode value@dockercfg
+```
+
+## Prerequisites (Development)
 + [NodeJS](http://nodejs.org)
 + [Grunt CLI](http://gruntjs.com/)
     To install: `npm install -g grunt-cli`
@@ -33,7 +77,7 @@ private image-factory used in totem.
 
 This application is writen in JavaScript for NodeJS. It utilizes NPM for dependency managment and Grunt as a task runner to facilitate testing and releasing.
 
-As with all Node projects, to get started you will need to install the projct dependencies. Do this by running the following from the root of this project:
+As with all Node projects, to get started you will need to install the project dependencies. Do this by running the following from the root of this project:
 
 ```bash
 npm install
