@@ -31,9 +31,7 @@ module.exports = function (grunt) {
       },
       coveralls: {
         options: {
-          coveralls: {
-            serviceName: 'travis'
-          }
+          coveralls: true
         }
       },
       options: {
