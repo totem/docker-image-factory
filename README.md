@@ -37,6 +37,7 @@ Create authorized_keys file with public keys.
 ```
 cat <<END>authorized_keys
 ssh-rsa AAAAB3NzaC1.....
+END
 ```
 
 Store  authorized_keys to etcd.
@@ -65,7 +66,7 @@ echo "<passphrase>"  | gpg -c  --batch --passphrase-fd 0  -o .dockercfg.enc  .do
 
 Store the encrypted config in etcd.  
 ```
-curl -L http://172.17.42.1:4001/v2/keys/totem/image-factory/dockercfg -XPUT --data-urlencode value@dockercfg
+curl -L http://172.17.42.1:4001/v2/keys/totem/image-factory/dockercfg -XPUT --data-urlencode value@dockercfg.enc
 ```
 
 ## Prerequisites (Development)
