@@ -77,7 +77,7 @@ The docker image for the Image Factory runs Docker-in-Docker and therefor has se
 docker run -P -d -h image-factory.$USER --privileged --lxc-conf="lxc.aa_profile=unconfined" -e 'ENC_PASSPHRASE=<github key/dockercfg passphrase>' <image-name>
 ```
 
-### Run Configuration (Environment Variables)  
+## Run Configuration (Environment Variables)  
 | Env Variable | Description | Default Value (Docker)|
 | ------------ | ----------- | --------------------- |
 | ETCD_HOST | Etcd server host. | 172.17.42.1 |
