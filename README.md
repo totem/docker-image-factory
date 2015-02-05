@@ -74,7 +74,7 @@ curl -L http://172.17.42.1:4001/v2/keys/totem/image-factory/dockercfg -XPUT --da
 The docker image for the Image Factory runs Docker-in-Docker and therefor has several unique requirements when running the image. Most notably you need to run the image in a `--privileged` mode with custom LXC arguments to disable AppArmor. An example run command is below:
 
 ```bash
-docker run -P -d -h image-factory.$USER --privileged --lxc-conf="lxc.aa_profile=unconfined" -e 'ENC_PASSPHRASE=<github key/dockercfg passphrase>' <image-name>
+docker run -P -d -h image-factory.$USER --privileged --lxc-conf="lxc.aa_profile=unconfined" -e 'ENC_PASSPHRASE=<github key/dockercfg passphrase>' totem/image-factory
 ```
 
 ## Run Configuration (Environment Variables)  
