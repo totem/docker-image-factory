@@ -14,7 +14,7 @@ RUN chmod  500 /root/.ssh & chown -R root:root /root/.ssh
 RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Install Docker
-ADD https://get.docker.io/builds/Linux/x86_64/docker-1.4.1 /usr/local/bin/docker
+ADD https://get.docker.io/builds/Linux/x86_64/docker-1.5.0 /usr/local/bin/docker
 ADD .docker/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 
@@ -50,6 +50,10 @@ ADD bin/decrypt-ssh-keys.sh /usr/local/bin/
 ADD bin/decrypt-docker-cfg.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/decrypt-ssh-keys.sh /usr/local/bin/decrypt-docker-cfg.sh
 
+# Add update git timestamp script
+ADD bin/update-git-ts.sh /usr/local/bin/update-git-ts.sh
+RUN chmod +x /usr/local/bin/update-git-ts.sh
+
 # Install Image Factory
 RUN adduser --system --home /opt/image-factory --shell /bin/bash imagefactory
 RUN echo "export HOME=/opt/image-factory" | tee -a /opt/image-factory/.profile
@@ -62,10 +66,6 @@ RUN ssh-keyscan -H github.com | tee -a /opt/image-factory/.ssh/known_hosts && ch
 
 ADD .root/.ssh /root/.ssh
 RUN chmod -R 400 /root/.ssh/* && chmod  500 /root/.ssh & chown -R root:root /root/.ssh
-
-# Add update git timestamp script
-ADD bin/update-git-ts.sh /usr/local/bin/update-git-ts.sh
-RUN chmod +x /usr/local/bin/update-git-ts.sh
 
 # Update ownership
 RUN chown -R imagefactory:nogroup /opt/image-factory
