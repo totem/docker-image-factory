@@ -14,7 +14,7 @@ RUN chmod  500 /root/.ssh & chown -R root:root /root/.ssh
 RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Install Docker
-ADD https://get.docker.io/builds/Linux/x86_64/docker-1.5.0 /usr/local/bin/docker
+ADD https://get.docker.io/builds/Linux/x86_64/docker-1.4.1 /usr/local/bin/docker
 ADD .docker/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 
