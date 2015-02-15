@@ -40,7 +40,7 @@ updateFileTimeStamp()
 	FILE_REVISION_HASH=`getFileLastRevision "$1"`
 
 	# Get the File last modified time (use bash to overcome issue with node)
-	FILE_MODIFIED_TIME=$(/bin/bash -c 'git show --pretty=format:%ai --abbrev-commit ${FILE_REVISION_HASH} | head -n 1' | awk '{print $1"T"$2$3}')
+	FILE_MODIFIED_TIME=$(/bin/bash -c 'git show --pretty=format:%ai --abbrev-commit ${FILE_REVISION_HASH} | head -n 1 | awk '{print $1"T"$2$3}')
 
 	# Extract the last modified timestamp, differently for Linux, FreeBSD and Mac OS X
 	if [ "$OS" = 'Linux' ]
