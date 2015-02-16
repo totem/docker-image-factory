@@ -2,14 +2,18 @@ FROM totem/nodejs-base:0.10.x-trusty
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update --fix-missing
-RUN apt-get install -y git openssh-client iptables ca-certificates lxc aufs-tools nano
+RUN apt-get update --fix-missing && \
+    apt-get install -y git \
+    openssh-client \
+    iptables \
+    ca-certificates \
+    lxc \
+    aufs-tools \
+    nano \
+    openssh-server
 
-##SSH Server (To troubleshoot issues with image factory)
-RUN apt-get install -y openssh-server
-RUN mkdir /var/run/sshd
-RUN mkdir /root/.ssh
-RUN chmod  500 /root/.ssh & chown -R root:root /root/.ssh
+##SSH Server Config (To troubleshoot issues with image factory)
+RUN mkdir -p /var/run/sshd /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
 
 RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
@@ -24,22 +28,20 @@ RUN sed -i 's~^#\$ModLoad immark\(.*\)$~$ModLoad immark \1~' /etc/rsyslog.conf
 
 #Confd
 ENV CONFD_VERSION 0.6.2
-RUN curl -L https://github.com/kelseyhightower/confd/releases/download/v$CONFD_VERSION/confd-${CONFD_VERSION}-linux-amd64 -o /usr/local/bin/confd
-RUN chmod 555 /usr/local/bin/confd
+RUN curl -L https://github.com/kelseyhightower/confd/releases/download/v$CONFD_VERSION/confd-${CONFD_VERSION}-linux-amd64 -o /usr/local/bin/confd && \
+    chmod 555 /usr/local/bin/confd
 
 #Etcdctl
 ENV ETCDCTL_VERSION v0.4.6
-RUN curl -L https://github.com/coreos/etcd/releases/download/$ETCDCTL_VERSION/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz -o /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz
-RUN cd /tmp && gzip -dc etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz | tar -xof -
-RUN cp -f /tmp/etcd-$ETCDCTL_VERSION-linux-amd64/etcdctl /usr/local/bin
-RUN rm -rf /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz
+RUN curl -L https://github.com/coreos/etcd/releases/download/$ETCDCTL_VERSION/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz -o /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz && \
+    cd /tmp && gzip -dc etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz | tar -xof - && \
+    cp -f /tmp/etcd-$ETCDCTL_VERSION-linux-amd64/etcdctl /usr/local/bin && \
+    rm -rf /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz
 
 #Supervisor Config
-RUN pip install supervisor==3.1.2
-RUN mkdir -p /var/log/supervisor
+RUN pip install supervisor==3.1.2 && mkdir -p /var/log/supervisor
 ADD bin/supervisord-wrapper.sh /usr/sbin/supervisord-wrapper.sh
-RUN chmod +x /usr/sbin/supervisord-wrapper.sh
-RUN ln -sf /etc/supervisor/supervisord.conf /etc/supervisord.conf
+RUN chmod +x /usr/sbin/supervisord-wrapper.sh && ln -sf /etc/supervisor/supervisord.conf /etc/supervisord.conf
 
 #Confd Defaults
 ADD bin/confd-wrapper.sh /usr/sbin/confd-wrapper.sh
@@ -68,9 +70,6 @@ ADD . /opt/image-factory
 
 #Etc Config
 ADD etc /etc
-
-# Service Discovery
-ENV DISCOVER image-factory:8080
 
 # Image Factory / Docker
 EXPOSE 8080 22
