@@ -25,7 +25,7 @@ private image-factory used in totem.
 + Log - The events from each build step concatinated together.
 
 ## Prerequisites (Docker)
-+ [Docker 1.1+](http://docker.io)  
++ [Docker 1.4+](http://docker.io)  
 + [Etcd 0.4.6+](https://github.com/coreos/etcd/releases) - Needed for storing encrypted keys, dockerconfig.
 + [Github SSH Key](https://help.github.com/articles/generating-ssh-keys/) - Needed for pulling repositories from github for building docker image.
 + [Quay Account](https://quay.io) - Needed for pushing images to quay.
@@ -72,11 +72,27 @@ curl -L http://172.17.42.1:4001/v2/keys/totem/image-factory/dockercfg -XPUT --da
 
 ## Running
 
-The docker image for the Image Factory runs Docker-in-Docker and therefor has several unique requirements when running the image. Most notably you need to run the image in a `--privileged` mode with custom LXC arguments to disable AppArmor. An example run command is below:
+The docker image for the Image Factory can be run using two approaches: 
+
+### Mounting Docker Socket as volume  
+In this mode, the docker unix socket is mounted as a read-only volume to the image-factory container. This approach does not require privileged mode. 
+An example run command is below:
 
 ```bash
-docker run -P -d -h image-factory.$USER --privileged --lxc-conf="lxc.aa_profile=unconfined" -e 'ENC_PASSPHRASE=<github key/dockercfg passphrase>' totem/image-factory
+docker run -P -d -h image-factory.$USER -v /var/run/docker.sock:/var/run/docker.dock:ro -e 'ENC_PASSPHRASE=<github key passphrase/dockercfg passphrase>' totem/image-factory
 ```
+
+### Docker in Docker (using privileged mode)  
+In this mode, imagefactury runs Docker-in-Docker and therefore has several unique requirements when running the image. 
+Most notably you need to run the image in a `--privileged` mode with custom LXC arguments to disable AppArmor. An example run command is below:
+
+```bash
+docker run -P -d -h image-factory.$USER --privileged --lxc-conf="lxc.aa_profile=unconfined" -e 'ENC_PASSPHRASE=<github key passphrase/dockercfg passphrase>' totem/image-factory
+```
+
+Note: This approach has issues with systemd (CoreOS) and might fail intermittently. This approach has been deprecated and 
+might be removed in future releases.
+
 
 ## Run Configuration (Environment Variables)  
 | Env Variable | Description | Default Value (Docker)|

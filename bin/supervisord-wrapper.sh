@@ -14,5 +14,11 @@ export HOOK_POST_URL='${HOOK_POST_URL}'
 export SWF_ENABLED='${SWF_ENABLED:-false}'
 END
 
+if [ -e /var/run/docker.sock ]; then
+    # Disable DIND as docker socket is available
+    echo "DIND Support diabled as docker.sock already present"
+    mv /etc/supervisor/conf.d/docker.conf /etc/supervisor/conf.d/docker.conf.disabled
+fi
+
 /bin/bash -le -c "/usr/local/bin/supervisord -c /etc/supervisor/supervisord.conf"
 

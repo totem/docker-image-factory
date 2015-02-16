@@ -35,12 +35,12 @@
       "retries": 0
     },
     "build": {
-      "cmd": "docker -H tcp://127.0.0.1:4243 build --rm -t {{dockerRepo}}totem/{{owner}}-{{repo}}:{{tag}} ./",
+      "cmd": "docker build --rm -t {{dockerRepo}}totem/{{owner}}-{{repo}}:{{tag}} ./",
       "timeout": "1800000",
       "retries": 0
     },
     "push": {
-      "cmd": "docker -H tcp://127.0.0.1:4243 push {{dockerRepo}}totem/{{owner}}-{{repo}}:{{tag}}",
+      "cmd": "docker push {{dockerRepo}}totem/{{owner}}-{{repo}}:{{tag}}",
       "timeout": "1800000",
       "retries": 20,
       "retryWait": 20000

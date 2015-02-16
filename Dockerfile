@@ -14,7 +14,7 @@ RUN chmod  500 /root/.ssh & chown -R root:root /root/.ssh
 RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Install Docker
-ADD https://get.docker.io/builds/Linux/x86_64/docker-1.4.1 /usr/local/bin/docker
+RUN curl -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-1.4.1
 ADD .docker/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 
@@ -54,30 +54,25 @@ RUN chmod +x /usr/local/bin/decrypt-ssh-keys.sh /usr/local/bin/decrypt-docker-cf
 ADD bin/update-git-ts.sh /usr/local/bin/update-git-ts.sh
 RUN chmod +x /usr/local/bin/update-git-ts.sh
 
+WORKDIR /opt/image-factory
+
+# Configure GitHub and  SSH Access
+ADD .root/.ssh/authorized_keys /root/.ssh/
+RUN ssh-keyscan -H github.com | tee -a /root/.ssh/known_hosts && chmod -R 400 /root/.ssh/*
+
 # Install Image Factory
-RUN adduser --system --home /opt/image-factory --shell /bin/bash imagefactory
-RUN echo "export HOME=/opt/image-factory" | tee -a /opt/image-factory/.profile
-ADD . /opt/image-factory
+ADD package.json /opt/image-factory/
 RUN cd /opt/image-factory; npm install
-
-# Configure GitHub SSH Access
-RUN mkdir /opt/image-factory/.ssh
-RUN ssh-keyscan -H github.com | tee -a /opt/image-factory/.ssh/known_hosts && chmod -R 400 /opt/image-factory/.ssh/*
-
-ADD .root/.ssh /root/.ssh
-RUN chmod -R 400 /root/.ssh/* && chmod  500 /root/.ssh & chown -R root:root /root/.ssh
-
-# Update ownership
-RUN chown -R imagefactory:nogroup /opt/image-factory
+ADD . /opt/image-factory
 
 #Etc Config
 ADD etc /etc
 
 # Service Discovery
-ENV DISCOVER image-factory:8080, image-factory-docker:4243
+ENV DISCOVER image-factory:8080
 
 # Image Factory / Docker
-EXPOSE 8080 4243 22
+EXPOSE 8080 22
 
 VOLUME /var/lib/docker
 

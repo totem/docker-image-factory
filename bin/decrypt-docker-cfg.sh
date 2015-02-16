@@ -1,6 +1,6 @@
 #!/bin/bash -el
 
-cd /opt/image-factory
+cd /root
 cat .dockercfg.enc.b64 | base64 -d > .dockercfg.enc
 if [ -f .dockercfg.dec ]; then
     rm .dockercfg.dec
