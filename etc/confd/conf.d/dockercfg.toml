@@ -1,6 +1,6 @@
 [template]
 src   = "dockercfg.tmpl"
-dest  = "/opt/image-factory/.dockercfg.enc.b64"
+dest  = "/root/.dockercfg.enc.b64"
 uid = 0
 gid = 0
 mode  = "0600"
