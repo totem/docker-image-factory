@@ -19,3 +19,7 @@
 ## 0.4.0
 
 + OSS Implementation of image factory
+
+## 0.5.0
+
++ Support for Github hook signature
