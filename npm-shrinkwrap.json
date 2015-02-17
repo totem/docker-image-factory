@@ -1,6 +1,6 @@
 {
   "name": "image-factory",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "dependencies": {
     "async": {
       "version": "0.2.10",
