@@ -100,6 +100,8 @@ might be removed in future releases.
 | ETCD_HOST | Etcd server host. | 172.17.42.1 |
 | ETCD_PORT | Etcd server port. | 4001 |
 | ETCD_TOTEM_BASE | Base path for totem configurations | /totem |
+| HOOK_POST_URL | URL to be used for post build notification | |
+| HOOK_SECRET | Secret used for github post hook and post build notification |changeit|
 
 
 ## Prerequisites (Development)

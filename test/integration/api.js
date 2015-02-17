@@ -49,17 +49,29 @@ var MINIMUM_BUILD_REQUEST = {
   repo: "fake-repo"
 };
 
-var GIT_HOOK_BUILD_REQUEST = {
-  ref: "fake-owner/fake-repo/fake-branch",
-  after: "1234",
-  repository: {
-    name: "fake-repo",
-    owner: {
-      name: "fake-owner"
-    }
-  },
-  deleted: false
-};
+var GIT_HOOK_PUSH_REQUEST_STR = '{ \
+  "ref": "fake-owner/fake-repo/fake-branch", \
+  "after": "1234", \
+  "repository": { \
+    "name": "fake-repo", \
+    "owner": { \
+      "name": "fake-owner" \
+    } \
+  }, \
+  "deleted": false \
+}';
+
+var GIT_HOOK_DELETE_REQUEST_STR = '{ \
+  "ref": "fake-owner/fake-repo/fake-branch", \
+  "after": "1234", \
+  "repository": { \
+    "name": "fake-repo", \
+    "owner": { \
+      "name": "fake-owner" \
+    } \
+  }, \
+  "deleted": true \
+}';
 
 var FULL_BUILD_REQUEST = {
   owner: "fake-owner",
@@ -149,8 +161,11 @@ describe('Image Factory - REST API', function () {
       request.post(
         BASE_URL + '/hooks/github',
         {
-          body: JSON.stringify(GIT_HOOK_BUILD_REQUEST),
-          headers: { 'Content-Type': 'application/json'}
+          body: GIT_HOOK_PUSH_REQUEST_STR,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Hub-Signature': 'sha1=75486e24e49d01aa87cff3951314993ce649cc8a'
+          }
         },
         function (err, response, body) {
           expect(err).to.not.exist;
@@ -167,19 +182,38 @@ describe('Image Factory - REST API', function () {
     });
 
     it('should return No Content when POST /hooks/github with deleted flag as true', function (done) {
-      var payload = _.clone(GIT_HOOK_BUILD_REQUEST);
-      payload.deleted = true;
       request.post(
         BASE_URL + '/hooks/github',
         {
-          body: JSON.stringify(payload),
-          headers: { 'Content-Type': 'application/json'}
+          body: GIT_HOOK_DELETE_REQUEST_STR,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Hub-Signature': 'sha1=b1b6f5e7379d550cfaaf597d90f26d832d999f3f'
+          }
         },
         function (err, response, body) {
           expect(err).to.not.exist;
           expect(response.statusCode).to.equal(204);
           done();
         }
+      );
+    });
+
+    it('should return Unauthorized response when invalid signature is passed', function (done) {
+      request.post(
+              BASE_URL + '/hooks/github',
+          {
+            body: GIT_HOOK_PUSH_REQUEST_STR,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Hub-Signature': 'sha1=invalid'
+            }
+          },
+          function (err, response, body) {
+            expect(err).to.not.exist;
+            expect(response.statusCode).to.equal(401);
+            done();
+          }
       );
     });
 
