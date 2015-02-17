@@ -164,7 +164,7 @@ describe('Image Factory - REST API', function () {
           body: GIT_HOOK_PUSH_REQUEST_STR,
           headers: {
             'Content-Type': 'application/json',
-            'X-Hub-Signature': 'sha1=39bbab69318d44aa25c76b4c6097f05293578989'
+            'X-Hub-Signature': 'sha1=75486e24e49d01aa87cff3951314993ce649cc8a'
           }
         },
         function (err, response, body) {
@@ -188,7 +188,7 @@ describe('Image Factory - REST API', function () {
           body: GIT_HOOK_DELETE_REQUEST_STR,
           headers: {
             'Content-Type': 'application/json',
-            'X-Hub-Signature': 'sha1=ec04162f2c6e04a226aebd05fd724ca010bd8aa3'
+            'X-Hub-Signature': 'sha1=b1b6f5e7379d550cfaaf597d90f26d832d999f3f'
           }
         },
         function (err, response, body) {
