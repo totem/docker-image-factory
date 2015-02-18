@@ -1,6 +1,6 @@
 {
   "name": "image-factory",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Docker Image Factory",
   "keywords": [
     "docker",
@@ -17,21 +17,23 @@
   "dependencies": {
     "async": "*",
     "winston": "*",
-    "restify": "*",
+    "restify": "~2.7.0",
     "wrench": "*",
     "optimist": "*",
     "shortid": "*",
     "lodash": "*",
     "formatter": "*",
-    "z-schema": "*",
+    "z-schema": "2.4.6",
     "underscore.string": "*",
-    "aws-sdk": "*",
+    "aws-sdk": "2.0.0-rc13",
     "events": "~1.0.0",
     "backoff": "*",
-    "aws-swf": "*"
+    "aws-swf": "4.0.0",
+    "hipchatter": "~0.2.0",
+    "nunjucks": "*"
   },
   "devDependencies": {
-    "request": "*",
+    "request": "~2.53.0",
     "chai": "~1.10.0",
     "sinon": "*",
     "sinon-chai": "~2.6.0",

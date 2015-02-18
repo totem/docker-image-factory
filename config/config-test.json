@@ -1,14 +1,8 @@
 {
   "port": 8080,
   "defaults": {
-    "realm": "dev",
     "branch": "develop",
     "commit": "HEAD"
-  },
-  "realms": {
-    "dev": {
-      "repository": "localhost"
-    }
   },
   "tasks": {
     "clone": {

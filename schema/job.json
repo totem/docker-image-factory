@@ -20,8 +20,9 @@
         "repo": {
           "type":"string"
         },
-        "dockerRepo": {
-          "type":"string"
+        "dockerRepoBase": {
+          "type":"string",
+          "description": "Docker registry base location. e.g: quay.io/myorg"
         }
       },
       "required" : ["owner", "repo"]

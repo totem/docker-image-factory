@@ -12,7 +12,7 @@ chai.use(sinonChai);
 describe('Image Factory - Post Hook', function () {
 
   // rewire acts exactly like require.
-  var posthookModule = rewire('../../lib/posthook');
+  var posthookModule = rewire('../../../lib/notification/posthook');
   var requestMock = {
     post: sinon.spy()
   };

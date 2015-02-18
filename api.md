@@ -56,9 +56,6 @@ This document describes the API endpoints available for the Image Factory. With 
                   },
                   "repo": {
                     "type": "string"
-                  },
-                  "realm": {
-                    "type": "string"
                   }
                 },
                 "required": ["owner", "repo"]
@@ -93,8 +90,7 @@ This will return a list of all current and past Job's know by the Image Factory.
               "owner": "meltmedia",
               "repo": "cdp-spec-java",
               "branch": "develop",
-              "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee",
-              "realm": "dev"
+              "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee"
             },
             "image": "u.melt.sh/meltmedia/cdp-spec-java:c95fa1de94c7bee554a97f31a14a2f7de92133ee",
             "status": "running",
@@ -140,8 +136,7 @@ Initiate a Job by requesting a new build to occur.
           "owner": "meltmedia",
           "repo": "cdp-spec-java",
           "branch": "develop",
-          "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee",
-          "realm": "dev"
+          "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee"
         }
         ```
 
@@ -162,9 +157,6 @@ Initiate a Job by requesting a new build to occur.
               "type": "string"
             },
             "repo": {
-              "type": "string"
-            },
-            "realm": {
               "type": "string"
             }
           },
@@ -189,8 +181,7 @@ Initiate a Job by requesting a new build to occur.
             "owner": "meltmedia",
             "repo": "cdp-spec-java",
             "branch": "develop",
-            "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee",
-            "realm": "dev"
+            "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee"
           },
           "image": "u.melt.sh/meltmedia/cdp-spec-java:c95fa1de94c7bee554a97f31a14a2f7de92133ee",
           "status": "running",
@@ -236,9 +227,6 @@ Initiate a Job by requesting a new build to occur.
                   "type": "string"
                 },
                 "repo": {
-                  "type": "string"
-                },
-                "realm": {
                   "type": "string"
                 }
               },
@@ -351,8 +339,7 @@ This will return the Job corisponding to the `id` provided.
             "owner": "meltmedia",
             "repo": "cdp-spec-java",
             "branch": "develop",
-            "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee",
-            "realm": "dev"
+            "commit": "c95fa1de94c7bee554a97f31a14a2f7de92133ee"
           },
           "image": "u.melt.sh/meltmedia/cdp-spec-java:c95fa1de94c7bee554a97f31a14a2f7de92133ee",
           "status": "running",
@@ -398,9 +385,6 @@ This will return the Job corisponding to the `id` provided.
                   "type": "string"
                 },
                 "repo": {
-                  "type": "string"
-                },
-                "realm": {
                   "type": "string"
                 }
               },

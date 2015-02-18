@@ -307,7 +307,9 @@ describe('Image Factory - REST API', function () {
         BASE_URL + '/job',
         { json: FULL_BUILD_REQUEST },
         function (err, response, body) {
-          get(body.id);
+          setTimeout(function() {
+            get(body.id);
+          }, 1000); // Give some time to start the job to complete.
         }
       );
 
