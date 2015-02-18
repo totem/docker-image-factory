@@ -1,9 +1,5 @@
 {
   "port": 8080,
-  "defaults": {
-    "branch": "develop",
-    "commit": "HEAD"
-  },
   "tasks": {
     "clone": {
       "cmd": "git clone --depth 50 --recurse-submodules --branch {{branch}} git@github.com:{{owner}}/{{repo}}.git ./",

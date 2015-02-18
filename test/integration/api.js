@@ -15,14 +15,8 @@ var PORT = 12919,
 var factoryConfig = {
   port: PORT,
   defaults: {
-    realm: 'dev',
     branch: 'develop',
     commit: 'HEAD'
-  },
-  realms: {
-    dev: {
-      repository: 'localhost'
-    }
   },
   tasks: {
     clone: {

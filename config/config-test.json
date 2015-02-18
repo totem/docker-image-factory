@@ -1,9 +1,5 @@
 {
   "port": 8080,
-  "defaults": {
-    "branch": "develop",
-    "commit": "HEAD"
-  },
   "tasks": {
     "clone": {
       "cmd": "true",
