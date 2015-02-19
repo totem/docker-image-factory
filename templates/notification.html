@@ -1,0 +1,110 @@
+<table>
+    <tr>
+        <td colspan="2"><b>Totem ({{ctx.cluster}} :: ImageFactory)</b><br/></td>
+    </tr>
+
+
+    <tr>
+        <td>
+            <table>
+                {% if notification.code %}
+                <tr>
+                    <td valign="top"><b>Code:</b></td>
+                    <td valign="bottom">{{ notification.code }}</td>
+                </tr>
+                {% endif %}
+
+                {% if notification.message %}
+                <tr>
+                    <td valign="top"><b>Message:</b></td>
+                    <td valign="bottom">{{ notification.message }}</td>
+                </tr>
+                {% endif %}
+
+                {% if ctx.repo %}
+                <tr>
+                    <td valign="top"><b>Repository:</b></td>
+
+                    <td valign="bottom">
+                        {% if ctx.github %}
+                        <a href="https://github.com/{{ctx.owner}}/{{ctx.repo}}">{{ ctx.repo }}</a>
+                        {% else %}
+                        {{ ctx.repo }}
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% endif %}
+
+                {% if ctx.owner %}
+                <tr >
+                    <td valign="top"><b>Owner:</b></td>
+
+                    <td valign="bottom">
+                        {% if ctx.github %}
+                        <a href="https://github.com/{{ctx.owner}}">{{ ctx.owner }}</a>
+                        {% else %}
+                        {{ ctx.owner }}
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% endif %}
+
+                {% if ctx.commit %}
+                <tr>
+                    <td valign="top"><b>Commit:</b></td>
+
+                    <td valign="bottom">
+                        {% if ctx.github %}
+                        <a href="https://github.com/{{ctx.owner}}/{{ctx.repo}}/commit/{{ctx.commit}}">{{ ctx.commit }}</a>
+                        {% else %}
+                        {{ ctx.commit }}
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% endif %}
+
+                {% if ctx.ref %}
+                <tr>
+                    <td valign="top"><b>Ref:</b></td>
+
+                    <td valign="bottom">
+                        {% if ctx.github %}
+                        <a href="https://github.com/{{ctx.owner}}/{{ctx.repo}}/tree/{{ctx.ref}}">{{ ctx.ref }}</a>
+                        {% else %}
+                        {{ ctx.ref }}
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% endif %}
+
+                {% if ctx.id %}
+                <tr>
+                    <td valign="top"><b>Job:</b></td>
+
+                    <td valign="bottom">
+                        <a href="{{ctx.baseUrl}}/job/{{ctx.id}}">{{ ctx.id }}</a>
+                        (<a href="{{ctx.baseUrl}}/job/{{ctx.id}}/log">View Logs...</a>)
+                    </td>
+
+                </tr>
+                {% endif %}
+            </table>
+
+        </td>
+        <td valign="top">
+            {% if notification.code == 'INTERNAL' %}
+            <img src='http://cdn.meme.am/instances/500x/56167084.jpg' height='200'/>
+            {% elif level == 1 %}
+            <img src='http://i.imgur.com/txw2K6j.jpg' height='200'/>
+            {% elif level == 2 %}
+            <img src="http://i.imgur.com/zknV7Dr.jpg" height='200'/>
+            {% else %}
+            &nbsp;
+            {% endif %}
+        </td>
+    </tr>
+</table>

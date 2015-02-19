@@ -102,6 +102,10 @@ might be removed in future releases.
 | ETCD_TOTEM_BASE | Base path for totem configurations | /totem |
 | HOOK_POST_URL | URL to be used for post build notification | |
 | HOOK_SECRET | Secret used for github post hook and post build notification |changeit|
+| HIPCHAT_TOKEN | Hipchat room notification token to be used for failed build notification ||
+| HIPCHAT_ROOM | Hipchat room to be used for failed build notification ||
+| BASE_URL | Base Url for Image Factory. Used for forming notification URLs | http://localhost:8080|
+| DOCKER_REPO_BASE | Docker base repository url (e.g: quay.io/myorg)| quay.io/totem |
 
 
 ## Prerequisites (Development)

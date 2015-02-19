@@ -1,27 +1,5 @@
 {
   "port": 8080,
-  "defaults": {
-    "realm": "not-production",
-    "branch": "develop",
-    "commit": "HEAD"
-  },
-  "realms": {
-    "production": {
-      "repository": "quay.io/"
-    },
-    "not-production": {
-      "repository": "quay.io/"
-    },
-    "totem-development": {
-      "repository": "quay.io/"
-    },
-    "local": {
-      "repository": "registry.totem.local/"
-    },
-    "public": {
-      "repository": ""
-    }
-  },
   "tasks": {
     "clone": {
       "cmd": "git clone --depth 50 --recurse-submodules --branch {{branch}} git@github.com:{{owner}}/{{repo}}.git ./",
@@ -35,12 +13,12 @@
       "retries": 0
     },
     "build": {
-      "cmd": "docker -H tcp://127.0.0.1:4243 build --rm -t {{dockerRepo}}totem/{{owner}}-{{repo}}:{{tag}} ./",
+      "cmd": "docker -H tcp://127.0.0.1:4243 build --rm -t {{dockerRepoBase}}/{{owner}}-{{repo}}:{{tag}} ./",
       "timeout": "1800000",
       "retries": 0
     },
     "push": {
-      "cmd": "docker -H tcp://127.0.0.1:4243 push {{dockerRepo}}totem/{{owner}}-{{repo}}:{{tag}}",
+      "cmd": "docker -H tcp://127.0.0.1:4243 push {{dockerRepoBase}}/{{owner}}-{{repo}}:{{tag}}",
       "timeout": "1800000",
       "retries": 20,
       "retryWait": 20000
