@@ -106,6 +106,7 @@ might be removed in future releases.
 | HIPCHAT_ROOM | Hipchat room to be used for failed build notification ||
 | BASE_URL | Base Url for Image Factory. Used for forming notification URLs | http://localhost:8080|
 | DOCKER_REPO_BASE | Docker base repository url (e.g: quay.io/myorg)| quay.io/totem |
+| TOTEM_ENV | Name of totem environment (e.g. production, local, development) | local |
 
 
 ## Prerequisites (Development)
