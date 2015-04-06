@@ -9,11 +9,10 @@ RUN apt-get update --fix-missing && \
     ca-certificates \
     lxc \
     aufs-tools \
-    nano \
-    openssh-server
+    nano
 
-##SSH Server Config (To troubleshoot issues with image factory)
-RUN mkdir -p /var/run/sshd /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
+##SSH Folder for known_hosts
+RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
 
 RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
@@ -21,10 +20,6 @@ RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 RUN curl -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-1.4.1
 ADD .docker/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
-
-#Syslog
-RUN echo '$PreserveFQDN on' | cat - /etc/rsyslog.conf > /tmp/rsyslog.conf && sudo mv /tmp/rsyslog.conf /etc/rsyslog.conf
-RUN sed -i 's~^#\$ModLoad immark\(.*\)$~$ModLoad immark \1~' /etc/rsyslog.conf
 
 #Confd
 ENV CONFD_VERSION 0.6.2
@@ -58,8 +53,7 @@ RUN chmod +x /usr/local/bin/update-git-ts.sh
 
 WORKDIR /opt/image-factory
 
-# Configure GitHub and  SSH Access
-ADD .root/.ssh/authorized_keys /root/.ssh/
+# Configure GitHub
 RUN ssh-keyscan -H github.com | tee -a /root/.ssh/known_hosts && chmod -R 400 /root/.ssh/*
 
 # Install Image Factory
@@ -72,7 +66,7 @@ ADD . /opt/image-factory
 ADD etc /etc
 
 # Image Factory / Docker
-EXPOSE 8080 22
+EXPOSE 8080
 
 VOLUME /var/lib/docker
 

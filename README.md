@@ -79,7 +79,7 @@ In this mode, the docker unix socket is mounted as a read-only volume to the ima
 An example run command is below:
 
 ```bash
-docker run -P -d -h image-factory.$USER -v /var/run/docker.sock:/var/run/docker.dock:ro -e 'ENC_PASSPHRASE=<github key passphrase/dockercfg passphrase>' totem/image-factory
+docker run -P -d -h image-factory.$USER -v /dev/log:/dev/log -v /var/run/docker.sock:/var/run/docker.dock:ro -e 'ENC_PASSPHRASE=<github key passphrase/dockercfg passphrase>' totem/image-factory
 ```
 
 ### Docker in Docker (using privileged mode)  
@@ -107,6 +107,7 @@ might be removed in future releases.
 | BASE_URL | Base Url for Image Factory. Used for forming notification URLs | http://localhost:8080|
 | DOCKER_REPO_BASE | Docker base repository url (e.g: quay.io/myorg)| quay.io/totem |
 | TOTEM_ENV | Name of totem environment (e.g. production, local, development) | local |
+| LOG_IDENTIFIER| Identifier used for centralized logging (syslog) | image-factory |
 
 
 ## Prerequisites (Development)
