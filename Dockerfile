@@ -1,4 +1,4 @@
-FROM totem/nodejs-base:0.10.x-trusty
+FROM totem/nodejs-base:0.10.38-trusty-b2
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -6,15 +6,11 @@ RUN apt-get update --fix-missing && \
     apt-get install -y git \
     openssh-client \
     iptables \
-    ca-certificates \
     lxc \
-    aufs-tools \
-    nano
+    aufs-tools
 
 ##SSH Folder for known_hosts
 RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
-
-RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Install Docker
 RUN curl -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-1.4.1
@@ -31,6 +27,7 @@ ENV ETCDCTL_VERSION v0.4.6
 RUN curl -L https://github.com/coreos/etcd/releases/download/$ETCDCTL_VERSION/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz -o /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz && \
     cd /tmp && gzip -dc etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz | tar -xof - && \
     cp -f /tmp/etcd-$ETCDCTL_VERSION-linux-amd64/etcdctl /usr/local/bin && \
+    rm -rf /tmp/etcd-$ETCDCTL_VERSION-linux-amd64
     rm -rf /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz
 
 #Supervisor Config
