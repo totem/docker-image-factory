@@ -1,4 +1,4 @@
-Docker Image Factory [![Build Status](https://travis-ci.org/totem/docker-image-factory.svg?branch=master)](https://travis-ci.org/totem/docker-image-factory) [![Coverage Status](https://coveralls.io/repos/totem/docker-image-factory/badge.svg)](https://coveralls.io/r/totem/docker-image-factory)
+Docker Image Factory [![Build Status](https://travis-ci.org/totem/docker-image-factory.svg?branch=master)](https://travis-ci.org/totem/docker-image-factory) [![Coverage Status](https://coveralls.io/repos/totem/docker-image-factory/badge.svg)](https://coveralls.io/r/totem/docker-image-factory)[![](https://badge.imagelayers.io/totem/image-factory.svg)](https://imagelayers.io/?images=totem/image-factory:develop 'Get your own badge on imagelayers.io')
 ====================
 <pre>
   ___                       ___        _                
