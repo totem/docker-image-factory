@@ -7,7 +7,9 @@ RUN apt-get update --fix-missing && \
     openssh-client \
     iptables \
     lxc \
-    aufs-tools
+    aufs-tools && \
+    apt-get clean && \
+    rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 ##SSH Folder for known_hosts
 RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
