@@ -56,7 +56,7 @@ RUN ssh-keyscan -H github.com | tee -a /root/.ssh/known_hosts && chmod -R 400 /r
 # Install Image Factory
 ADD package.json /opt/image-factory/
 ADD npm-shrinkwrap.json /opt/image-factory/
-RUN cd /opt/image-factory; npm install
+RUN set -e; cd /opt/image-factory; npm install --production; npm cache clean
 ADD . /opt/image-factory
 
 #Etc Config
