@@ -1,9 +1,0 @@
-[template]
-src   = "authorized_keys.tmpl"
-dest  = "/root/.ssh/authorized_keys"
-uid = 0
-gid = 0
-mode  = "0600"
-keys = [
-  "ssh"
-]

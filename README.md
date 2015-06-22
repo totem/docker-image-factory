@@ -1,4 +1,4 @@
-Docker Image Factory [![Build Status](https://travis-ci.org/totem/docker-image-factory.svg?branch=master)](https://travis-ci.org/totem/docker-image-factory) [![Coverage Status](https://coveralls.io/repos/totem/docker-image-factory/badge.svg)](https://coveralls.io/r/totem/docker-image-factory)
+Docker Image Factory [![Build Status](https://travis-ci.org/totem/docker-image-factory.svg?branch=master)](https://travis-ci.org/totem/docker-image-factory) [![Coverage Status](https://coveralls.io/repos/totem/docker-image-factory/badge.svg)](https://coveralls.io/r/totem/docker-image-factory)[![](https://badge.imagelayers.io/totem/image-factory.svg)](https://imagelayers.io/?images=totem/image-factory:develop 'Get your own badge on imagelayers.io')
 ====================
 <pre>
   ___                       ___        _                
@@ -79,7 +79,7 @@ In this mode, the docker unix socket is mounted as a read-only volume to the ima
 An example run command is below:
 
 ```bash
-docker run -P -d -h image-factory.$USER -v /var/run/docker.sock:/var/run/docker.dock:ro -e 'ENC_PASSPHRASE=<github key passphrase/dockercfg passphrase>' totem/image-factory
+docker run -P -d -h image-factory.$USER -v /dev/log:/dev/log -v /var/run/docker.sock:/var/run/docker.dock:ro -e 'ENC_PASSPHRASE=<github key passphrase/dockercfg passphrase>' totem/image-factory
 ```
 
 ### Docker in Docker (using privileged mode)  
@@ -107,6 +107,7 @@ might be removed in future releases.
 | BASE_URL | Base Url for Image Factory. Used for forming notification URLs | http://localhost:8080|
 | DOCKER_REPO_BASE | Docker base repository url (e.g: quay.io/myorg)| quay.io/totem |
 | TOTEM_ENV | Name of totem environment (e.g. production, local, development) | local |
+| LOG_IDENTIFIER| Identifier used for centralized logging (syslog) | image-factory |
 
 
 ## Prerequisites (Development)

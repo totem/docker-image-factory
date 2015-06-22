@@ -1,4 +1,4 @@
-FROM totem/nodejs-base:0.10.x-trusty
+FROM totem/nodejs-base:0.10.38-trusty-b2
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -6,25 +6,18 @@ RUN apt-get update --fix-missing && \
     apt-get install -y git \
     openssh-client \
     iptables \
-    ca-certificates \
     lxc \
-    aufs-tools \
-    nano \
-    openssh-server
+    aufs-tools && \
+    apt-get clean && \
+    rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-##SSH Server Config (To troubleshoot issues with image factory)
-RUN mkdir -p /var/run/sshd /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
-
-RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+##SSH Folder for known_hosts
+RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
 
 # Install Docker
 RUN curl -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-1.4.1
 ADD .docker/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
-
-#Syslog
-RUN echo '$PreserveFQDN on' | cat - /etc/rsyslog.conf > /tmp/rsyslog.conf && sudo mv /tmp/rsyslog.conf /etc/rsyslog.conf
-RUN sed -i 's~^#\$ModLoad immark\(.*\)$~$ModLoad immark \1~' /etc/rsyslog.conf
 
 #Confd
 ENV CONFD_VERSION 0.6.2
@@ -36,6 +29,7 @@ ENV ETCDCTL_VERSION v0.4.6
 RUN curl -L https://github.com/coreos/etcd/releases/download/$ETCDCTL_VERSION/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz -o /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz && \
     cd /tmp && gzip -dc etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz | tar -xof - && \
     cp -f /tmp/etcd-$ETCDCTL_VERSION-linux-amd64/etcdctl /usr/local/bin && \
+    rm -rf /tmp/etcd-$ETCDCTL_VERSION-linux-amd64 && \
     rm -rf /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz
 
 #Supervisor Config
@@ -58,21 +52,20 @@ RUN chmod +x /usr/local/bin/update-git-ts.sh
 
 WORKDIR /opt/image-factory
 
-# Configure GitHub and  SSH Access
-ADD .root/.ssh/authorized_keys /root/.ssh/
+# Configure GitHub
 RUN ssh-keyscan -H github.com | tee -a /root/.ssh/known_hosts && chmod -R 400 /root/.ssh/*
 
 # Install Image Factory
 ADD package.json /opt/image-factory/
 ADD npm-shrinkwrap.json /opt/image-factory/
-RUN cd /opt/image-factory; npm install
+RUN set -e; cd /opt/image-factory; npm install --production; npm cache clean
 ADD . /opt/image-factory
 
 #Etc Config
 ADD etc /etc
 
 # Image Factory / Docker
-EXPOSE 8080 22
+EXPOSE 8080
 
 VOLUME /var/lib/docker
 

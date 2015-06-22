@@ -1,6 +1,6 @@
 {
   "name": "image-factory",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Docker Image Factory",
   "keywords": [
     "docker",
@@ -30,10 +30,10 @@
     "backoff": "*",
     "aws-swf": "4.0.0",
     "hipchatter": "~0.2.0",
-    "nunjucks": "*"
+    "nunjucks": "*",
+    "request": "~2.53.0"
   },
   "devDependencies": {
-    "request": "~2.53.0",
     "chai": "~1.10.0",
     "sinon": "*",
     "sinon-chai": "~2.6.0",
