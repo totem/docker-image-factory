@@ -184,7 +184,7 @@ describe('Image Factory - REST API', function () {
           headers: {
             'Content-Type': 'application/json',
             'X-Hub-Signature': 'sha1=b1b6f5e7379d550cfaaf597d90f26d832d999f3f',
-            'X-GitHub-Event': 'delete'
+            'X-GitHub-Event': 'push'
           }
         },
         function (err, response, body) {
