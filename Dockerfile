@@ -33,7 +33,8 @@ RUN curl -L https://github.com/coreos/etcd/releases/download/$ETCDCTL_VERSION/et
     rm -rf /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz
 
 #Supervisor Config
-RUN pip install supervisor==3.1.2 && mkdir -p /var/log/supervisor
+RUN pip install supervisor==3.1.2 supervisor-stdout && \
+    mkdir -p /var/log/supervisor
 ADD bin/supervisord-wrapper.sh /usr/sbin/supervisord-wrapper.sh
 RUN chmod +x /usr/sbin/supervisord-wrapper.sh && ln -sf /etc/supervisor/supervisord.conf /etc/supervisord.conf
 
