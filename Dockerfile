@@ -15,7 +15,7 @@ RUN apt-get update --fix-missing && \
 RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
 
 # Install Docker
-RUN curl -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-1.4.1
+RUN curl -L -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-1.7.1
 ADD .docker/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 
