@@ -1,6 +1,6 @@
 {
   "name": "image-factory",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Docker Image Factory",
   "keywords": [
     "docker",
