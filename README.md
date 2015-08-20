@@ -83,7 +83,7 @@ docker run -P -d -h image-factory.$USER -v /dev/log:/dev/log -v /var/run/docker.
 ```
 
 ### Docker in Docker (using privileged mode)  
-In this mode, imagefactury runs Docker-in-Docker and therefore has several unique requirements when running the image. 
+In this mode, imagefactory runs Docker-in-Docker and therefore has several unique requirements when running the image. 
 Most notably you need to run the image in a `--privileged` mode with custom LXC arguments to disable AppArmor. An example run command is below:
 
 ```bash
@@ -97,7 +97,7 @@ might be removed in future releases.
 ## Run Configuration (Environment Variables)  
 | Env Variable | Description | Default Value (Docker)|
 | ------------ | ----------- | --------------------- |
-| ETCD_HOST | Etcd server host. | 172.17.42.1 |
+| ETCD_HOST | Etcd server host. |      |
 | ETCD_PORT | Etcd server port. | 4001 |
 | ETCD_TOTEM_BASE | Base path for totem configurations | /totem |
 | HOOK_POST_URL | URL to be used for post build notification | |

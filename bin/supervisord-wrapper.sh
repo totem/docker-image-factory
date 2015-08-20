@@ -1,7 +1,9 @@
 #!/bin/bash -le
 
+HOST_IP="${HOST_IP:-$(/sbin/ip route|awk '/default/ { print $3 }')}"
+
 cat <<END>> /etc/profile.d/image-factory-env.sh
-export ETCD_HOST='${ETCD_HOST:-172.17.42.1}'
+export ETCD_HOST='${ETCD_HOST:-$HOST_IP}'
 export ETCD_PORT='${ETCD_PORT:-4001}'
 export ETCD_TOTEM_BASE='${ETCD_TOTEM_BASE:-/totem}'
 export SSH_HOST_KEY='${SSH_HOST_KEY:-/root/.ssh/id_rsa}'
