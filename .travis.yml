@@ -3,6 +3,3 @@ node_js:
   - '0.10'
 sudo: false
 script: './node_modules/.bin/grunt travis'
-notifications:
-  webhooks:
-    - secure: "vreiJUYGpE5nhd2e49D67pUTo+gJwvDB1VRYQVPl06AcF0rH9MbyI5U2CtkTNTxPzucAmrCrX75SE2nqdkSfgLlKUCKViAySlh5L2AVdlaeOt1U1YlLZyrYrLZKIBU3UdeudDmW2My8WoZ+E1FuYvCEInzAoeU9odqPIQtIMIfQ="
