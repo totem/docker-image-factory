@@ -13,12 +13,12 @@
       "retries": 0
     },
     "build": {
-      "cmd": "docker -H tcp://127.0.0.1:4243 build --rm -t {{dockerRepoBase}}/{{owner}}-{{repo}}:{{tag}} ./",
+      "cmd": "docker -H tcp://172.22.2.165:4243 build --rm -t {{dockerRepoBase}}/{{owner}}-{{repo}}:{{tag}} ./",
       "timeout": "1800000",
       "retries": 0
     },
     "push": {
-      "cmd": "docker -H tcp://127.0.0.1:4243 push {{dockerRepoBase}}/{{owner}}-{{repo}}:{{tag}}",
+      "cmd": "docker -H tcp://172.22.2.165:4243 push {{dockerRepoBase}}/{{owner}}-{{repo}}:{{tag}}",
       "timeout": "1800000",
       "retries": 20,
       "retryWait": 20000
