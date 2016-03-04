@@ -79,7 +79,7 @@ In this mode, the docker unix socket is mounted as a read-only volume to the ima
 An example run command is below:
 
 ```bash
-docker run -P -d -h image-factory.$USER -v /dev/log:/dev/log -v /var/run/docker.sock:/var/run/docker.dock:ro -e 'ENC_PASSPHRASE=<github key passphrase/dockercfg passphrase>' totem/image-factory
+docker run -P -d -h image-factory.$USER -v /dev/log:/dev/log -v /var/run/docker.sock:/var/run/docker.sock:ro -e 'ENC_PASSPHRASE=<github key passphrase/dockercfg passphrase>' totem/image-factory
 ```
 
 ### Docker in Docker (using privileged mode)  
