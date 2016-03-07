@@ -108,6 +108,7 @@ might be removed in future releases.
 | DOCKER_REPO_BASE | Docker base repository url (e.g: quay.io/myorg)| quay.io/totem |
 | TOTEM_ENV | Name of totem environment (e.g. production, local, development) | local |
 | LOG_IDENTIFIER| Identifier used for centralized logging (syslog) | image-factory |
+| ENC_PASSPHRASE | Ecnryption passphrase for git key (in etcd) | |
 
 
 ## Prerequisites (Development)
