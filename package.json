@@ -25,7 +25,6 @@
     "lodash": "*",
     "nunjucks": "*",
     "optimist": "*",
-    "queue": "^3.1.0",
     "request": "~2.53.0",
     "restify": "~2.7.0",
     "shortid": "*",
