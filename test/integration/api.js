@@ -35,7 +35,8 @@ var factoryConfig = {
       cmd: 'true',
       timeout: 10000
     }
-  }
+  },
+  coalescingPeriod: 5000
 };
 
 var MINIMUM_BUILD_REQUEST = {
@@ -143,6 +144,38 @@ describe('Image Factory - REST API', function () {
           expect(response.statusCode).to.equal(400);
           expect(body.id).to.not.exist;
           done();
+        }
+      );
+    });
+
+    it('should create a new Job and coalesce a second Job when POST /job twice with identical payloads within the coalescing period', function (done) {
+
+      async.times(
+        2,
+        function (n, next) {
+          request.post(
+            BASE_URL + '/job',
+            { json: MINIMUM_BUILD_REQUEST },
+            function (err, response, body) {
+              next(err);
+            }
+          );
+        },
+        function (err, results) {
+          request.get(
+            BASE_URL + '/job',
+            function (err, response, body) {
+              expect(err).to.not.exist;
+              expect(response.statusCode).to.equal(200);
+              expect(response.headers).to.include.keys('link');
+              expect(response.headers['link']).to.contain('</_schema/job-list>; rel="describedBy"');
+              expect(response.headers).to.include.keys('content-type');
+              expect(response.headers['content-type']).to.contain('application/vnd.sh.melt.cdp.if.job-list.v1+json');
+              var results = JSON.parse(body);
+              expect(results).to.have.length(1);
+              done();
+            }
+          );
         }
       );
     });
@@ -292,7 +325,6 @@ describe('Image Factory - REST API', function () {
       }
     });
 
-
   });
 
   describe('GET /job/{id}/log', function () {
@@ -335,7 +367,6 @@ describe('Image Factory - REST API', function () {
 
   });
   
-  // TODO: This test needs to be rewritten to account for coalescing
   describe('GET /job', function () {
 
     it('should return a list of known Jobs when requesting GET /job', function (done) {
@@ -343,9 +374,17 @@ describe('Image Factory - REST API', function () {
       async.times(
         5,
         function (n, next) {
+          // Need to differentiate the requests because of coalescing
+          var owner = "fake-owner-" + n.toString();
+          var repo = "fake-repo-" + n.toString();
           request.post(
             BASE_URL + '/job',
-            { json: FULL_BUILD_REQUEST },
+            { 
+              json: {
+                owner: owner,
+                repo: repo
+              }
+            },
             function (err, response, body) {
               next(err);
             }
