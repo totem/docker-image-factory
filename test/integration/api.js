@@ -334,43 +334,44 @@ describe('Image Factory - REST API', function () {
     });
 
   });
+  
+  // TODO: This test needs to be rewritten to account for coalescing
+  describe('GET /job', function () {
 
-  // describe('GET /job', function () {
+    it('should return a list of known Jobs when requesting GET /job', function (done) {
 
-  //   it('should return a list of known Jobs when requesting GET /job', function (done) {
+      async.times(
+        5,
+        function (n, next) {
+          request.post(
+            BASE_URL + '/job',
+            { json: FULL_BUILD_REQUEST },
+            function (err, response, body) {
+              next(err);
+            }
+          );
+        },
+        function (err, results) {
+          request.get(
+            BASE_URL + '/job',
+            function (err, response, body) {
+              expect(err).to.not.exist;
+              expect(response.statusCode).to.equal(200);
+              expect(response.headers).to.include.keys('link');
+              expect(response.headers['link']).to.contain('</_schema/job-list>; rel="describedBy"');
+              expect(response.headers).to.include.keys('content-type');
+              expect(response.headers['content-type']).to.contain('application/vnd.sh.melt.cdp.if.job-list.v1+json');
+              var results = JSON.parse(body);
+              expect(results).to.have.length(5);
+              done();
+            }
+          );
+        }
+      );
 
-  //     async.times(
-  //       5,
-  //       function (n, next) {
-  //         request.post(
-  //           BASE_URL + '/job',
-  //           { json: FULL_BUILD_REQUEST },
-  //           function (err, response, body) {
-  //             next(err);
-  //           }
-  //         );
-  //       },
-  //       function (err, results) {
-  //         request.get(
-  //           BASE_URL + '/job',
-  //           function (err, response, body) {
-  //             expect(err).to.not.exist;
-  //             expect(response.statusCode).to.equal(200);
-  //             expect(response.headers).to.include.keys('link');
-  //             expect(response.headers['link']).to.contain('</_schema/job-list>; rel="describedBy"');
-  //             expect(response.headers).to.include.keys('content-type');
-  //             expect(response.headers['content-type']).to.contain('application/vnd.sh.melt.cdp.if.job-list.v1+json');
-  //             var results = JSON.parse(body);
-  //             expect(results).to.have.length(5);
-  //             done();
-  //           }
-  //         );
-  //       }
-  //     );
+    });
 
-  //   });
-
-  // });
+  });
 
   describe('GET /_schema', function () {
 
