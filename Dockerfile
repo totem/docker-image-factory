@@ -1,4 +1,4 @@
-FROM totem/nodejs-base:0.10.38-trusty-b2
+FROM totem/nodejs-base:0.10.42
 
 ENV DEBIAN_FRONTEND noninteractive
 

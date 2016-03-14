@@ -1,0 +1,9 @@
+.git*
+*.md
+.jsh*
+.travis*
+.totem*
+totem*
+AUTHORS
+LICENSE
+*.apib

@@ -24,6 +24,7 @@
       "retryWait": 20000
     }
   },
+  "concurrentJobs" : 2,
   "colaescingPeriod": 30000,
   "swf":{
     "region": "us-west-1",
