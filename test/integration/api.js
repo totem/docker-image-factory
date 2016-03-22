@@ -7,6 +7,7 @@ var chai = require('chai'),
     zSchema = require('z-schema'),
     util = require('util'),
     _ = require('lodash'),
+    constants = require('../../lib/constants'),
     Factory = require('../../lib/factory');
 
 var PORT = 12919,
@@ -34,7 +35,8 @@ var factoryConfig = {
     push: {
       cmd: 'true',
       timeout: 10000
-    }
+    },
+    concurrentJobs: 1
   }
 };
 
@@ -142,6 +144,58 @@ describe('Image Factory - REST API', function () {
           expect(err).to.not.exist;
           expect(response.statusCode).to.equal(400);
           expect(body.id).to.not.exist;
+          done();
+        }
+      );
+    });
+
+    it('should create a new Job that is pending in queue while a previous job is building when POST /job with one concurrent job', function (done) {
+
+      // Creates the first job
+      var firstJob;
+      request.post(
+        BASE_URL + '/job',
+        {
+          body: JSON.stringify({
+            owner: "fake-owner-0",
+            repo: "fake-repo-0"
+          }),
+          headers: { 'Content-Type': 'application/vnd.sh.melt.cdp.if.job-create.v1+json'}
+        },
+        function (err, response, body) {
+          expect(err).to.not.exist;
+          expect(response.statusCode).to.equal(201);
+          expect(response.headers).to.include.keys('link');
+          expect(response.headers['link']).to.contain('</_schema/job>; rel="describedBy"');
+          expect(response.headers).to.include.keys('content-type');
+          expect(response.headers['content-type']).to.contain('application/vnd.sh.melt.cdp.if.job.v1+json');
+          var job = JSON.parse(body);
+          expect(job.id).to.exist;
+          firstJob = job.id;
+        }
+      );
+
+      // Creates the second job
+      request.post(
+        BASE_URL + '/job',
+        {
+          body: JSON.stringify({
+            owner: "fake-owner-1",
+            repo: "fake-repo-1"
+          }),
+          headers: { 'Content-Type': 'application/vnd.sh.melt.cdp.if.job-create.v1+json'}
+        },
+        function (err, response, body) {
+          expect(err).to.not.exist;
+          var job = JSON.parse(body);
+          expect(job.id).to.exist;
+
+          // The number of jobs waiting in queue should be 1
+          expect(factoryInstance.jobQueue.length()).to.equal(1);
+
+          // The number of jobs being worked on should be 1, and should be the first job
+          expect(factoryInstance.jobQueue.workersList().length).to.equal(1);
+          expect(factoryInstance.jobQueue.workersList()[0].data.id).to.equal(firstJob);
           done();
         }
       );
