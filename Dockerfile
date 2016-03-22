@@ -9,7 +9,9 @@ RUN apt-get update --fix-missing && \
     lxc \
     aufs-tools && \
     apt-get clean && \
-    rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+    rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* && \
+    wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.0.0/dumb-init_1.0.0_amd64 && \
+    chmod +x /usr/bin/dumb-init
 
 ##SSH Folder for known_hosts
 RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
@@ -70,5 +72,6 @@ EXPOSE 8080
 
 VOLUME /var/lib/docker
 
-ENTRYPOINT ["/usr/sbin/supervisord-wrapper.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "/usr/sbin/supervisord-wrapper.sh"]
+
 CMD [""]
