@@ -15,6 +15,7 @@ RUN apt-get update --fix-missing && \
 RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
 
 # Install Docker
+# Docker version might be overridden in supervisord-wrapper if host and client version are different
 RUN curl -L -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-1.8.3
 ADD .docker/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker

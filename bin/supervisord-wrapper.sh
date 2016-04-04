@@ -24,9 +24,19 @@ END
 
 if [ -e /var/run/docker.sock ]; then
     # Disable DIND as docker socket is available
-    echo "DIND Support diabled as docker.sock already present"
+    echo "DIND Support disabled as docker.sock already present"
     mv /etc/supervisor/conf.d/docker.conf /etc/supervisor/conf.d/docker.conf.disabled
 fi
 
-/bin/bash -le -c "/usr/local/bin/supervisord -c /etc/supervisor/supervisord.conf"
+HOST_DOCKER_VERSION=$(docker version --format {{.Server.Version}})
+LOCAL_DOCKER_VERSION=$(docker version --format {{.Client.Version}})
 
+if [ $LOCAL_DOCKER_VERSION != $HOST_DOCKER_VERSION ]; then
+  echo "Docker version mismatch, installing docker $DOCKER_HOST_VERSION on client"
+
+  # Install Docker
+  curl -L -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-$HOST_DOCKER_VERSION
+  chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
+fi
+
+/bin/bash -le -c "/usr/local/bin/supervisord -c /etc/supervisor/supervisord.conf"
