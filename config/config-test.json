@@ -19,7 +19,6 @@
     }
   },
   "concurrentJobs" : 2,
-  "colaescingPeriod": 30000,
   "swf":{
     "region": "us-west-1",
     "defaultTasklist": "build-image-list"
