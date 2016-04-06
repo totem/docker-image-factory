@@ -109,7 +109,7 @@ might be removed in future releases.
 | TOTEM_ENV | Name of totem environment (e.g. production, local, development) | local |
 | LOG_IDENTIFIER| Identifier used for centralized logging (syslog) | image-factory |
 | ENC_PASSPHRASE | Ecnryption passphrase for git key (in etcd) | |
-
+| CONCURRENCY | Number of concurrent runners for image factory | 2 |
 
 ## Prerequisites (Development)
 + [NodeJS](http://nodejs.org)

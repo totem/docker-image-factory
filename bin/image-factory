@@ -13,6 +13,7 @@ var winston = require('winston'),
     path = require('path'),
     fs = require('fs'),
     swfHelper = require('../lib/swf/helper'),
+    _ = require('lodash'),
     swfRegister = require('../lib/swf/register'),
     ImageFactoryActivities = require('../lib/swf/image-factory-activities'),
     Factory = require('../lib/factory');
@@ -76,7 +77,9 @@ function main() {
 
     // Run the master
   try {
-    var factory = new Factory(config);
+    var factory = new Factory(_.merge({}, config, {
+      concurrentJobs: process.env.CONCURRENCY
+    }));
     winston.log('info', 'Image factory running.');
     if(JSON.parse((process.env.SWF_ENABLED || 'false').toLowerCase())) {
       var swfConfig = config.swf || {

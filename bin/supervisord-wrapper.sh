@@ -20,6 +20,7 @@ export AWS_ACCESS_KEY_ID='${AWS_ACCESS_KEY_ID}'
 export AWS_SECRET_ACCESS_KEY='${AWS_SECRET_ACCESS_KEY}'
 export AWS_SWF_DOMAIN='${AWS_SWF_DOMAIN:-totem-local}'
 export LOG_IDENTIFIER='${LOG_IDENTIFIER:-image-factory}'
+export CONCURRENCY='${CONCURRENCY:-2}'
 END
 
 if [ -e /var/run/docker.sock ]; then
