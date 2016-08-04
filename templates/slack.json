@@ -1,7 +1,7 @@
 {
   "text": " ",
   "username": "Image Factory",
-  "channel": "{{ channel }}",
+  "channel": "{{ notification.channel }}",
   "attachments": [{
     "text": "A *{{ ctx.env }}* build for *{{ ctx.repo }}* has failed!\nFor more details, view the <{{ ctx.baseUrl }}/job/{{ ctx.id }}/log|logs>.",
     "color": "danger",
