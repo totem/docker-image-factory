@@ -1,0 +1,17 @@
+{
+  "text": " ",
+  "username": "Image Factory",
+  "channel": "{{ channel }}",
+  "attachments": [{
+    "text": "A *{{ ctx.env }}* build for *{{ ctx.repo }}* has failed!\nFor more details, view the <{{ ctx.baseUrl }}/job/{{ ctx.id }}/log|logs>.",
+    "color": "danger",
+    "mrkdwn_in": ["text"],
+    "footer":
+      {% if ctx.github %}
+        "<https://github.com/{{ctx.owner}}|{{ctx.owner or 'NA'}}> / <https://github.com/{{ctx.owner}}/{{ctx.repo}}|{{ctx.repo or 'NA'}}> / <https://github.com/{{ctx.owner}}/{{ctx.repo}}/tree/{{ctx.branch}}|{{ctx.branch or 'NA'}}> / <https://github.com/{{ctx.owner}}/{{ctx.repo}}/commits/{{ctx.shortCommit or ctx.branch}}|{{ctx.shortCommit or ctx.branch or 'NA'}}>\n"
+      {% else %}
+        "{{ctx.owner or 'NA'}}/{{ctx.repo or 'NA'}}/{{ctx.branch or 'NA'}}/{{ctx.shortCommit or 'NA'}}"
+      {% endif %},
+    "ts": "{{ notification.date }}"
+  }]
+}

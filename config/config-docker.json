@@ -9,7 +9,7 @@
     },
     "checkout": {
       "cmd": "git checkout -f {{commit}} && update-git-ts.sh",
-      "timeout": "120000",
+      "timeout": "240000",
       "retries": 0
     },
     "build": {
