@@ -37,6 +37,9 @@ if [ $LOCAL_DOCKER_VERSION != $HOST_DOCKER_VERSION ]; then
 
   # Install Docker
   curl -L -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-$HOST_DOCKER_VERSION
+  curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-$HOST_DOCKER_VERSION.tgz \
+      && tar --strip-components=1 -xvzf docker-$HOST_DOCKER_VERSION.tgz -C /usr/local/bin
+
   chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 fi
 

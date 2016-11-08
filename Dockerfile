@@ -16,7 +16,9 @@ RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.s
 
 # Install Docker
 # Docker version might be overridden in supervisord-wrapper if host and client version are different
-RUN curl -L -o /usr/local/bin/docker https://get.docker.io/builds/Linux/x86_64/docker-1.8.3
+RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-1.11.2.tgz \
+    && tar --strip-components=1 -xvzf docker-1.11.2.tgz -C /usr/local/bin
+
 ADD .docker/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 
