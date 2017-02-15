@@ -38,7 +38,7 @@
     },
     "owner": {
       "type": "object",
-      "oneOf": [
+      "anyOf": [
         {
           "properties": {
             "name": {
