@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "chai": "~1.10.0",
-    "sinon": "*",
+    "sinon": "<2",
     "sinon-chai": "~2.6.0",
     "grunt": "*",
     "grunt-contrib-jshint": "*",
