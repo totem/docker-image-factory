@@ -1,34 +1,27 @@
-FROM totem/nodejs-base:0.10.42
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV CONFD_VERSION 0.6.2
+ENV ETCDCTL_VERSION v0.4.6
 
 RUN apt-get update --fix-missing && \
-    apt-get install -y git \
-    openssh-client \
-    iptables \
-    lxc \
-    aufs-tools && \
+    apt-get install -y \
+        wget curl build-essential patch git-core openssl libssl-dev unzip ca-certificates \
+        git docker.io openssh-client python3 python3-pip python2 \
+        && \
+    curl http://nodejs.org/dist/v0.10.48/node-v0.10.48-linux-x64.tar.gz | tar xzvf - --strip-components=1 -C "/usr" && \
     apt-get clean && \
+    mkdir -p /usr/local/bin && \
     rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 ##SSH Folder for known_hosts
 RUN mkdir -p  /root/.ssh && chmod  500 /root/.ssh && chown -R root:root /root/.ssh
 
-# Install Docker
-# Docker version might be overridden in supervisord-wrapper if host and client version are different
-RUN curl --fail -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-1.11.2.tgz \
-    && tar --strip-components=1 -xvzf docker-1.11.2.tgz -C /usr/local/bin
-
-ADD .docker/wrapdocker /usr/local/bin/wrapdocker
-RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
-
 #Confd
-ENV CONFD_VERSION 0.6.2
 RUN curl -L https://github.com/kelseyhightower/confd/releases/download/v$CONFD_VERSION/confd-${CONFD_VERSION}-linux-amd64 -o /usr/local/bin/confd && \
     chmod 555 /usr/local/bin/confd
 
 #Etcdctl
-ENV ETCDCTL_VERSION v0.4.6
 RUN curl -L https://github.com/coreos/etcd/releases/download/$ETCDCTL_VERSION/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz -o /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz && \
     cd /tmp && gzip -dc etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz | tar -xof - && \
     cp -f /tmp/etcd-$ETCDCTL_VERSION-linux-amd64/etcdctl /usr/local/bin && \
@@ -36,7 +29,7 @@ RUN curl -L https://github.com/coreos/etcd/releases/download/$ETCDCTL_VERSION/et
     rm -rf /tmp/etcd-$ETCDCTL_VERSION-linux-amd64.tar.gz
 
 #Supervisor Config
-RUN pip install supervisor==3.1.2 supervisor-stdout && \
+RUN pip install supervisor supervisor-stdout && \
     mkdir -p /var/log/supervisor
 ADD bin/supervisord-wrapper.sh /usr/sbin/supervisord-wrapper.sh
 RUN chmod +x /usr/sbin/supervisord-wrapper.sh && ln -sf /etc/supervisor/supervisord.conf /etc/supervisord.conf
@@ -61,8 +54,8 @@ RUN ssh-keyscan -H github.com | tee -a /root/.ssh/known_hosts && chmod -R 400 /r
 
 # Install Image Factory
 ADD package.json /opt/image-factory/
-ADD npm-shrinkwrap.json /opt/image-factory/
-RUN set -e; cd /opt/image-factory; npm install --production; npm cache clean
+COPY npm-shrinkwrap-linux.json /opt/image-factory/npm-shrinkwrap.json
+RUN set -e; cd /opt/image-factory; npm install --no-optional --production; npm cache clean
 ADD . /opt/image-factory
 
 #Etc Config
