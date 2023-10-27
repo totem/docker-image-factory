@@ -2,6 +2,11 @@
   "name": "image-factory",
   "version": "0.7.1",
   "dependencies": {
+    "minimatch": {
+      "version": "2.0.10",
+      "from": "minimatch@>=2.0.0 <2.1.0",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-2.0.10.tgz"
+    },
     "abbrev": {
       "version": "1.0.7",
       "from": "abbrev@>=1.0.0 <2.0.0",
